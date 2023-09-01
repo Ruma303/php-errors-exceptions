@@ -88,3 +88,134 @@ Message: {$e->getMessage()}<br>
 Code: {$e->getCode()}<br>
 Linea: {$e->getLine()}<br>
 Error; */
+
+
+//* Refactoring
+
+/* class FileManager {
+    public function __construct(private string $file) {
+        $this->checkFileExists();
+    }
+    private function checkFileExists() {
+        try {
+            if (!file_exists($this->file)) {
+                throw new Exception(message: "Il file non esiste.", code: 404);
+            }
+        } catch (Exception $e) {
+            echo "Eccezione catturata: {$e->getCode()}, Message {$e->getMessage()}<br>";
+        }
+    }
+}
+$file1 = new FileManager('file-non-esistente');
+ */
+
+
+//$ Blocco finally
+
+/* function checkNumber($num) {
+    try {
+        if($num > 1) {
+            throw new Exception("Il numero è maggiore di 1.");
+        }
+        echo "Il numero è 1 o meno.<br>";
+    } catch(Exception $e) {
+        echo "Eccezione catturata: {$e->getMessage()}<br>";
+    } finally {
+        echo " Questo blocco viene eseguito indipendentemente.";
+    }
+}
+checkNumber(2); */
+
+
+//% Specializzare gli errori
+
+/* class ValueException extends Exception {
+    public function __construct(private int $min, private int $max) {
+        parent::__construct("Errore di input");
+    }
+    public function getErrorMessage() {
+        return <<<MSG
+        {$this->getMessage()}<br>
+        Il valore dev'essere compreso tra $this->min e $this->max!<br>
+        MSG;
+    }
+}
+try {
+    $val = 10;
+    throw new ValueException(1, 5);
+} catch (ValueException $e) {
+    echo $e->getErrorMessage();
+} */
+
+
+
+//$ Gestione di eccezioni multiple
+
+/* class ValueException extends Exception {}
+class OptionalException extends Exception {}
+class OtherException extends Exception {}
+
+try {
+    //throw new ValueException();
+    throw new OptionalException();
+    //throw new OtherException();
+} catch (ValueException $e) {
+    echo "Eccezione sollevata dalla classe: " . $e::class;
+} catch (OptionalException $e) {
+    echo "Eccezione sollevata dalla classe: " . $e::class;
+} catch (OtherException $e) {
+    echo "Eccezione sollevata dalla classe: " . $e::class;
+} */
+
+/*
+catch (ValueException | OptionalException | OtherException $e) {
+        echo "Eccezione sollevata dalla classe: " . $e::class;
+    }
+ */
+
+
+//$ Gestire eccezioni non catturate
+
+class ValueException extends Exception {}
+class OptionalException extends Exception {}
+class OtherException extends Exception {}
+
+/* set_exception_handler(function($e) {
+    echo "Eccezione generica gestita.";
+});
+
+try {
+    throw new OptionalException();
+} catch (OptionalException $e) {
+    echo "Eccezione catturata dalla classe: " . $e::class;
+}
+echo '<br>Testo.'; */
+
+//* Classe globale per gestire le eccezioni
+
+/* class GlobalExceptionHandler {
+    public function handle(Exception $e) {
+        echo "Eccezione gestita da " . __METHOD__;
+    }
+}
+set_exception_handler([new GlobalExceptionHandler, 'handle']);
+try {
+    throw new ValueException();
+} catch (OptionalException $e) {
+    echo "Eccezione catturata dalla classe: " . $e::class;
+}
+echo '<br>Testo.'; */
+
+
+//% Gestire errori non catturati
+
+/* try {
+    $res = 2 / 0;
+} catch (DivisionByZeroError $e) {
+    echo <<<ERRORS
+    Messaggio: {$e->getMessage()}<br>
+    Compare alla linea: {$e->getLine()}<br>
+    ERRORS;
+} catch (Error $e) {
+    echo "Errore gestito";
+} */

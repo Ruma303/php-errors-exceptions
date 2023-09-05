@@ -133,15 +133,18 @@ checkNumber(2);
 
 //% Specializzare le eccezioni
 
-/* class MyException extends Exception {}
+/* class ValueException extends Exception {}
 
 try {
-    throw new MyException();
-} catch (Exception $e) {
+    throw new ValueException();
+} catch (ValueException $e) {
     echo '<pre>'; print_r($e); echo '</pre>';
 } */
 
-/* class MyException extends Exception
+
+//| Classe exception personalizzata
+
+/* class ValueException extends Exception
 {
     public function __construct()
     {
@@ -155,10 +158,16 @@ try {
         MSG;
     }
 }
- */
-/* try {
-    throw new MyException();
-} catch (MyException $e) {
+
+echo "Il valore deve rientrare nel range 1 - 5.<br>";
+try {
+    $val = 10;
+    if (($val <=1) || ($val >= 5)) {
+        throw new ValueException();
+    } else {
+        echo "Il valore rientra nel range";
+    }
+} catch (ValueException $e) {
     echo $e->getErrorMessage();
 } */
 

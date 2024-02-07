@@ -2,7 +2,7 @@
 
 //% Errori
 
-//| Mostrare gli errori
+//, Mostrare gli errori
 
 //* display_errors() e error_reporting()
 /* ini_set('display_errors', 1);
@@ -10,17 +10,18 @@ echo $a;
 error_reporting(E_ALL); */
 
 
-//| Fasi di errore
-//require 'file-non-esistente.php'; // Errore fatale
-//echo 56 // Parse error
+//, Fasi di errore
+/* require 'file-non-esistente.php'; // Errore fatale
+echo 56;  */// Parse error
 
 
-//| Tipi di errore
-//include './file-non-esistente.php';
+//, Tipi di errore
+// include './file-non-esistente.php';
 // Avvertimento, ma lo script continua
+// echo "Hello";
 
 
-//| Gestione personalizzazione degli errori
+//, Gestione personalizzazione degli errori
 /* set_error_handler('errorHandler', E_ALL);
 
 //* Funzione errore personalizzata
@@ -32,7 +33,7 @@ function errorHandler(int $errNum, string $errMsg) {
 echo $varNonDefinita; */
 
 
-//| Gestire i tipi di eccezioni
+//, Gestire i tipi di eccezioni
 /* set_error_handler([new ErrorHandler, 'handle'], E_ALL);
 
 class ErrorHandler {
@@ -45,7 +46,7 @@ class ErrorHandler {
     }
 }
 echo $varNonDefinita; */
-//require 'not-a-file.php';
+// require 'not-a-file.php';
 
 //echo $a;
 
@@ -53,43 +54,47 @@ echo $varNonDefinita; */
 
 //% Eccezioni
 
-//| Creare un'eccezione
+//, Creare un'eccezione
 /* (function() {
     if(!file_exists('file-non-esistente.php')) {
     throw new Exception("Il file non esiste.");
 }})(); */
 
 
-//| try and catch
+//, try and catch
+ /* echo <<<"Error"
+                <h3>Eccezione catturata</h3>
+                Message: {$e->getMessage()}<br>
+                Code: {$e->getCode()}<br>
+                Linea: {$e->getLine()}<br>
+                Error; */
 
 /* class FileManager {
     public function __construct($file) {
         try {
             if (!file_exists($file)) {
-                throw new Exception("Il file non esiste.<br>");
+                throw new Exception("Il file non esiste.");
+
+
             }
         } catch (Exception $e) {
-            //echo "Eccezione catturata.<br>";
-            //echo '<pre>'; print_r($e); echo '</pre>';
+            // echo "Eccezione catturata.<br>";
+            // echo '<pre>'; var_dump($e); echo '</pre>';
+
+
         }
-        //echo 'Posso scrivere codice dopo aver catturato l\'eccezione.<br>';
+        echo '<br>Posso scrivere codice dopo aver catturato l\'eccezione.<br>';
     }
-}
-$file1 = new FileManager('file-non-esistente'); */
+} */
+// $file1 = new FileManager('file-non-esistente');
 //echo 'Posso scrivere codice.';
 
-/* throw new Exception(
-message: "Messaggio personalizzato dell'eccezione.",
-code: 404
-); */
-
-/* echo <<<"Error"
-<h3>Eccezione catturata</h3>
-Message: {$e->getMessage()}<br>
-Code: {$e->getCode()}<br>
-Linea: {$e->getLine()}<br>
-Error; */
-
+ /* echo <<<"Error"
+            <h3>Eccezione catturata</h3>
+            Message: {$e->getMessage()}<br>
+            Code: {$e->getCode()}<br>
+            Linea: {$e->getLine()}<br>
+            Error; */
 
 
 //* Refactoring
@@ -105,7 +110,7 @@ Error; */
                 throw new Exception(message: "Il file non esiste.", code: 404);
             }
         } catch (Exception $e) {
-            echo "Eccezione catturata: {$e->getCode()}, Message {$e->getMessage()}<br>";
+            echo "Eccezione catturata: {$e->getCode()} <br> Message: {$e->getMessage()}<br>";
         }
     }
 }
@@ -113,7 +118,7 @@ $file1 = new FileManager('file-non-esistente'); */
 
 
 
-//| Blocco finally
+//, Blocco finally
 
 /* function checkNumber($num) {
     try {
@@ -127,22 +132,20 @@ $file1 = new FileManager('file-non-esistente'); */
         echo "Questo blocco viene eseguito indipendentemente.";
     }
 }
-checkNumber(2);
- */
+checkNumber(2); */
 
 
 //% Specializzare le eccezioni
-
 /* class ValueException extends Exception {}
 
 try {
     throw new ValueException();
 } catch (ValueException $e) {
     echo '<pre>'; print_r($e); echo '</pre>';
-} */
+}
+ */
 
-
-//| Classe exception personalizzata
+//, Classe exception personalizzata
 
 /* class ValueException extends Exception
 {
@@ -172,7 +175,7 @@ try {
 } */
 
 
-//| Gestione di eccezioni multiple
+//, Gestione di eccezioni multiple
 
 /* class ValueException extends Exception {}
 class OptionalException extends Exception {}
@@ -180,8 +183,8 @@ class OtherException extends Exception {}
 
 try {
     throw new ValueException();
-    //throw new OptionalException();
-    //throw new OtherException();
+    // throw new OptionalException();
+    // throw new OtherException();
 } catch (ValueException $e) {
     echo "Eccezione sollevata dalla classe: " . $e::class;
 } catch (OptionalException $e) {
@@ -197,7 +200,7 @@ try {
 
 
 
-//| Gestire eccezioni non catturate
+//, Gestire eccezioni non catturate
 
 /* class ValueException extends Exception {}
 class OptionalException extends Exception {}
@@ -216,6 +219,9 @@ echo '<br>Testo.'; */
 
 
 //* Classe globale per gestire le eccezioni
+/* class ValueException extends Exception {}
+class OptionalException extends Exception {}
+class OtherException extends Exception {} */
 
 /* class GlobalExceptionHandler {
     public function handle(Exception $e) {
@@ -226,8 +232,8 @@ echo '<br>Testo.'; */
 set_exception_handler([new GlobalExceptionHandler, 'handle']);
 
 try {
-    throw new ValueException();
-} catch (OptionalException $e) {
+    throw new OptionalException();
+} catch (ValueException $e) {
     echo "Eccezione catturata dalla classe: " . $e::class;
 }
 echo '<br>Testo.'; */
@@ -242,7 +248,11 @@ echo '<br>Testo.'; */
     Messaggio: {$e->getMessage()}<br>
     Compare alla linea: {$e->getLine()}<br>
     ERRORS;
-}
-catch (Error $e) {
-    echo "Errore gestito.";
+} */
+/* catch (Error $e) {
+    echo "Errore gestito.<br>";
+    echo <<<ERRORS
+    Messaggio: {$e->getMessage()}<br>
+    Compare alla linea: {$e->getLine()}<br>
+    ERRORS;
 } */
